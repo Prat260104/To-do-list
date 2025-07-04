@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTodo } from "../contexts/Todocontext"; // ✅ Custom hook to access todo functions from context
 
 function TodoItem({ todo }) {
-  // ✅ Track whether the todo is in editable mode or not
+  // ✅ Track whether the todo is in editable mode or not according to your need
   const [isTodoEditable, setIsTodoEditable] = useState(false);
 
   // ✅ Local state for editable text input (controlled component)
