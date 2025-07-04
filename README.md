@@ -27,5 +27,28 @@ A beautifully styled **Todo List App** built using **React**, **Context API**, a
 
 ---
 
+## ⚙️ Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/Prat260104/react-todo-app-context.git
+```
+
+# Go to the project directory
+```bash
+cd react-todo-app-context
+```
+
+# Install dependencies
+```bash
+npm install
+```
+
+# Start the development server
+```bash
+npm run dev
+```
+
+
 
 
