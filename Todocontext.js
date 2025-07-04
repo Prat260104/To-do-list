@@ -13,7 +13,7 @@ import{createContext,useContext} from "react"
     deleteTodo:(id)=>{},
     toggleComplete:(id)=>{}
  }) //default value object pass karna h 
- //todos ke ek array h uske andar har ek todo ek object hoga 
+ // remember imp todos ke ek array h uske andar har ek todo ek object hoga 
 
  export const useTodo = ()=>{
     return(
