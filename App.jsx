@@ -1,37 +1,31 @@
-import { useState, useEffect } from 'react'; // ✅ React ke built-in hooks for state & lifecycle
-import './App.css'; // ✅ Custom CSS file (agar kuch override karna ho Tailwind ke upar)
-import { Todoprovider } from './contexts/Todocontext'; // ✅ Context API ka provider, global state pass karne ke liye
-import TodoForm from './components/Todoform'; // ✅ Todo add karne ka form
-import TodoItem from './components/Todoitem'; // ✅ Har ek individual todo item component
-import { motion } from 'framer-motion'; // ✅ Animation ke liye
-import darkBg from './assets/bg-dark.webp'; // ✅ Dark mode ke liye background image
-import lightBg from './assets/bg-light-2.webp'; // ✅ Light mode ke liye background image
+import { useState, useEffect } from 'react';
+import './App.css';
+import { Todoprovider } from './contexts/Todocontext';
+import TodoForm from './components/Todoform';
+import TodoItem from './components/Todoitem';
+import { motion } from 'framer-motion';
+import darkBg from './assets/bg-dark.webp';
+import lightBg from './assets/bg-light-2.webp';
 
 function App() {
-  // ✅ React Hook: useState => Todos ka state rakha gaya hai as an array of objects
   const [todos, setTodos] = useState([]);
-
-  // ✅ Theme mode ke liye state: dark ya light theme toggle karne ke liye
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [filter, setFilter] = useState("all"); // ✅ Added: filter state
 
-  // ✅ Add new todo (todo is an object with title & completed)
   const addTodo = (todo) => {
     setTodos((prev) => [{ id: Date.now(), ...todo }, ...prev]);
   };
 
-  // ✅ Update an existing todo by matching its ID
   const updateTodo = (id, updatedTodo) => {
     setTodos((prev) =>
       prev.map((prevTodo) => (prevTodo.id === id ? updatedTodo : prevTodo))
     );
   };
 
-  // ✅ Delete todo by filtering it out
   const deleteTodo = (id) => {
     setTodos((prev) => prev.filter((todo) => todo.id !== id));
   };
 
-  // ✅ Toggle complete/incomplete state
   const toggleComplete = (id) => {
     setTodos((prev) =>
       prev.map((prevTodo) =>
@@ -42,7 +36,6 @@ function App() {
     );
   };
 
-  // ✅ Component mount ke time localStorage se todos load karo
   useEffect(() => {
     const todosFromStorage = JSON.parse(localStorage.getItem('todos'));
     if (todosFromStorage && todosFromStorage.length > 0) {
@@ -50,23 +43,25 @@ function App() {
     }
   }, []);
 
-  // ✅ Jab bhi todos change ho, localStorage mein update karo
   useEffect(() => {
     localStorage.setItem('todos', JSON.stringify(todos));
   }, [todos]);
 
+  // ✅ Filtered todos based on selected filter type
+  const filteredTodos = todos.filter(todo => {
+    if (filter === "completed") return todo.completed;
+    if (filter === "pending") return !todo.completed;
+    return true;
+  });
+
   return (
-    // ✅ Context Provider ke through sab components ko state/functions mil jaayenge
-    <Todoprovider
-      value={{ todos, addTodo, updateTodo, toggleComplete, deleteTodo }}
-    >
-      {/* ✅ Outer shell with animated gradient + image background */}
+    <Todoprovider value={{ todos, addTodo, updateTodo, toggleComplete, deleteTodo }}>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
         style={{
-          backgroundImage: `url(${isDarkMode ? darkBg : lightBg})`, // ✅ Theme ke hisaab se background image change
+          backgroundImage: `url(${isDarkMode ? darkBg : lightBg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -77,10 +72,8 @@ function App() {
             : 'bg-gradient-to-br from-[#ffecd2] via-[#fcb69f] to-[#ff9a9e]'
           }`}
       >
-        {/* ✅ Decorative overlay for texture/pattern (optional) */}
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none"></div>
 
-        {/* ✅ Main container with glassmorphism effect and animated entry */}
         <motion.div
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -91,13 +84,12 @@ function App() {
               : 'bg-white/70 backdrop-blur-xl text-gray-900 border border-gray-200'
             }`}
         >
-          {/* ✅ Header with title and theme toggle button */}
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-4xl font-extrabold tracking-wide drop-shadow-lg">
               📝 Manage Your Todos
             </h1>
             <button
-              onClick={() => setIsDarkMode(!isDarkMode)} // ✅ Theme toggle logic
+              onClick={() => setIsDarkMode(!isDarkMode)}
               className={`text-sm px-4 py-2 rounded-lg font-semibold shadow-md transition-all duration-300
                 ${
                   isDarkMode
@@ -109,12 +101,31 @@ function App() {
             </button>
           </div>
 
-          {/* ✅ Form component for adding new todos */}
+          {/* ✅ Todo Form */}
           <div className="mb-6">
             <TodoForm />
           </div>
 
-          {/* ✅ Todo list section with animation */}
+          {/* ✅ Filter Buttons */}
+          <div className="flex justify-center gap-4 mb-6">
+            {["all", "completed", "pending"].map((type) => (
+              <button
+                key={type}
+                onClick={() => setFilter(type)}
+                className={`px-4 py-2 rounded-full text-sm font-medium shadow-sm transition ${
+                  filter === type
+                    ? 'bg-purple-600 text-white'
+                    : 'bg-white/40 text-black dark:text-white hover:bg-white/60'
+                }`}
+              >
+                {type === "all" && "📋 All"}
+                {type === "completed" && "✅ Completed"}
+                {type === "pending" && "🕒 Pending"}
+              </button>
+            ))}
+          </div>
+
+          {/* ✅ Todo List */}
           <motion.div
             layout
             className="space-y-4"
@@ -122,9 +133,8 @@ function App() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
-            {todos.length > 0 ? (
-              // ✅ Agar todos available hain to unhe map karke TodoItem render karo
-              todos.map((todo) => (
+            {filteredTodos.length > 0 ? (
+              filteredTodos.map((todo) => (
                 <motion.div
                   key={todo.id}
                   layout
@@ -138,9 +148,8 @@ function App() {
                 </motion.div>
               ))
             ) : (
-              // ✅ Agar koi todo nahi hai to empty state show karo
               <p className="text-center italic text-sm opacity-80">
-                No todos yet. Add one above 👆
+                No todos in this filter. Try adding one! 👆
               </p>
             )}
           </motion.div>
