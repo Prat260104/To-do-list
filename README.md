@@ -1,29 +1,34 @@
-# ✅ React Todo App with Context API & TailwindCSS
+# ✅ React Todo App with Context API, TailwindCSS & Advanced Features
 
-A beautifully styled **Todo List App** built using **React**, **Context API**, and **TailwindCSS**. This app allows you to manage your daily tasks with features like add, edit, delete, and toggle completion — all using global state management.
+A beautifully styled **Todo List App** built using **React**, **Context API**, and **TailwindCSS**, now enhanced with **priority selection**, **due dates**, **dark/light mode toggle**, and **localStorage support**. Smooth transitions and a modern UI make it both practical and visually appealing.
 
 ---
 
 ## 🚀 Features
 
-- ✅ Add new tasks with ease
-- ✏️ Edit existing tasks
-- ❌ Delete tasks
+- ➕ Add new tasks with title, priority, and due date
+- ✏️ Inline editing of todos
 - ✅ Mark tasks as complete/incomplete
-- 🌗 Auto support for dark/light themes
-- 🔁 Reusable components using React hooks and Context API
-- 💅 Clean and responsive UI with TailwindCSS
+- ❌ Delete tasks
+- 📅 Due date support for task deadlines
+- 🔥 Priority levels (High, Medium, Low)
+- 🌗 Light & dark mode toggle
+- 💾 Todos saved in `localStorage`
+- ♻️ Fully reusable components with Context API
+- 🎨 Styled with TailwindCSS + glassmorphism
+- 🎥 Smooth animations using Framer Motion
 
 ---
 
 ## 🧠 Tech Stack
 
-| Tech | Description |
-|------|-------------|
-| ⚛️ React | JavaScript library for building UI |
-| 🎯 Context API | For global state management |
-| 🎨 TailwindCSS | Utility-first CSS framework |
-| 🧱 JSX | Component-based architecture |
+| Tech            | Description                           |
+|------------------|---------------------------------------|
+| ⚛️ React         | Frontend framework                    |
+| 🧠 Context API   | Global state management               |
+| 🎨 TailwindCSS   | Utility-first CSS for rapid UI design |
+| 🎥 Framer Motion | For animations and transitions        |
+| 💾 localStorage  | Data persistence across sessions      |
 
 ---
 
@@ -32,23 +37,12 @@ A beautifully styled **Todo List App** built using **React**, **Context API**, a
 ```bash
 # Clone the repository
 git clone https://github.com/Prat260104/To-do-list.git
-```
 
-# Go to the project directory
-```bash
-cd react-todo-app-context
-```
+# Navigate to the project folder
+cd To-do-list
 
 # Install dependencies
-```bash
 npm install
-```
 
 # Start the development server
-```bash
 npm run dev
-```
-
-
-
-
